@@ -1,0 +1,44 @@
+import { useDispatch } from 'react-redux';
+import { logIn } from '../../redux/auth/operations';
+import { Link } from 'react-router-dom';
+import css from './Login.module.css';
+
+export const LoginForm = () => {
+    const dispatch = useDispatch();
+
+    const handleSubmit = event => {
+        event.preventDefault();
+        const form = event.currentTarget;
+
+        dispatch(
+            logIn({
+                email: form.elements.email.value,
+                password: form.elements.password.value,
+            })
+        )
+        form.reset();
+    }
+
+    return (
+        <div className={css.div}>
+            <p className={css.title}>Login</p>
+            <form onSubmit={handleSubmit} autoComplete='off' className={css.form}>
+                <div>
+                    <label htmlFor="email">Email</label>
+                    <input className={css.input} type="email" name="email" placeholder="Email" required />
+                </div>
+                <div>
+                    <label htmlFor="password">Password</label>
+                    <input className={css.input} type="password" name="password" placeholder="password" required />
+                </div>
+                <button className={css.btn} type='submit'>Login</button>
+                <p className={css.text} >
+                    Don't have an account? 
+                    <Link className={css.link} to='/register'>
+                        Sign up
+                    </Link>
+                </p>
+            </form>
+        </div>
+    )
+}
